@@ -1,3 +1,4 @@
+import { DataFrame, DataFrameDTO, toDataFrameDTO } from '@grafana/data';
 import { MeasurementCollector } from './collector';
 import { MeasurementAction } from './types';
 
@@ -166,6 +167,14 @@ describe('MeasurementCollector', () => {
       }
     `);
 
+    const same = [
+      arrayDTO(collector.getData()),
+      arrayDTO(collector.getData({ name: '' })),
+      arrayDTO(collector.getData({ name: 'test' })),
+    ];
+    expect(same[0]).toEqual(same[1]);
+    expect(same[0]).toEqual(same[2]);
+
     collector.addBatch({
       action: MeasurementAction.Replace,
       measurements: [
@@ -248,3 +257,7 @@ describe('MeasurementCollector', () => {
     expect(collector.getData().length).toEqual(0);
   });
 });
+
+function arrayDTO(data: DataFrame[]): DataFrameDTO[] {
+  return data.map(f => toDataFrameDTO(f));
+}

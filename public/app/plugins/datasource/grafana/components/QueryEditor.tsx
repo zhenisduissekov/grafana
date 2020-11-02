@@ -5,6 +5,7 @@ import { InlineField, Select, FeatureInfoBox } from '@grafana/ui';
 import { QueryEditorProps, SelectableValue, LiveChannelScope, FeatureState } from '@grafana/data';
 import { getLiveMeasurements, LiveMeasurements } from '@grafana/runtime';
 import { GrafanaDatasource } from '../datasource';
+import { MeasurementQueryEditor } from './MeasurementQueryEditor';
 import { defaultQuery, GrafanaQuery, GrafanaQueryType } from '../types';
 
 type Props = QueryEditorProps<GrafanaDatasource, GrafanaQuery>;
@@ -160,7 +161,9 @@ export class QueryEditor extends PureComponent<Props> {
             />
           </InlineField>
         </div>
-        {query.queryType === GrafanaQueryType.LiveMeasurements && this.renderMeasurementsQuery()}
+        {query.queryType === GrafanaQueryType.LiveMeasurements && (
+          <MeasurementQueryEditor {...this.props} query={query} />
+        )}
       </>
     );
   }

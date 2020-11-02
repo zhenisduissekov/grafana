@@ -118,7 +118,7 @@ export class MeasurementCollector implements LiveMeasurements {
     const { name, labels, fields } = query || {};
 
     let data: DataFrame[] = [];
-    if (name) {
+    if (name && name.length) {
       // for now we only match exact names
       const m = this.measurements.get(name);
       if (m) {

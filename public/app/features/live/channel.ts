@@ -30,6 +30,8 @@ export class CentrifugeLiveChannel<TMessage = any, TPublish = any> implements Li
 
   readonly stream = new Subject<LiveChannelEvent<TMessage>>();
 
+  private last = 0;
+
   /** Static definition of the channel definition.  This may describe the channel usage */
   config?: LiveChannelConfig;
   subscription?: Centrifuge.Subscription;
@@ -60,10 +62,15 @@ export class CentrifugeLiveChannel<TMessage = any, TPublish = any> implements Li
         try {
           const message = prepare(ctx.data);
           if (message) {
-            this.stream.next({
-              type: LiveChannelEventType.Message,
-              message,
-            });
+            const now = Date.now();
+            const elapsed = now - this.last;
+            if (elapsed > 200) {
+              this.stream.next({
+                type: LiveChannelEventType.Message,
+                message,
+              });
+              this.last = now;
+            }
           }
 
           // Clear any error messages

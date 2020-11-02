@@ -34,7 +34,7 @@ func (g *TestDataSupplier) GetHandlerForPath(path string) (models.ChannelHandler
 		return &testDataRunner{
 			publisher:   g.Publisher,
 			running:     false,
-			speedMillis: 2000,
+			speedMillis: 1000 / 20, // 20hz
 			dropPercent: 0,
 			channel:     channel,
 			name:        path,
