@@ -138,12 +138,15 @@ export class MeasurementCollector implements LiveMeasurements {
           filtered.push({ ...frame, fields: match }); // Copy the frame with fewer fields
         }
       }
+      if (filtered.length) {
+        return filtered;
+      }
     }
     return data;
   }
 
   getDistinctNames(): string[] {
-    return Object.keys(this.measurements);
+    return [...this.measurements.keys()];
   }
 
   getDistinctLabels(name: string): Labels[] {

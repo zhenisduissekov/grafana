@@ -59,6 +59,7 @@ export function getLiveMeasurementsObserver(
     .pipe(
       map(evt => {
         if (isLiveChannelMessageEvent(evt)) {
+          console.log('GOT message! ', evt);
           rsp.data = evt.message.getData(query);
           if (!rsp.data.length) {
             // ?? skip when data is empty ???

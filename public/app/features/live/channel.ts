@@ -16,7 +16,7 @@ import Centrifuge, {
   SubscriptionEvents,
   UnsubscribeContext,
 } from 'centrifuge/dist/centrifuge.protobuf';
-import { Subject, of, merge } from 'rxjs';
+import { of, merge, ReplaySubject } from 'rxjs';
 
 /**
  * Internal class that maps Centrifuge support to GrafanaLive
@@ -28,7 +28,7 @@ export class CentrifugeLiveChannel<TMessage = any, TPublish = any> implements Li
   readonly id: string;
   readonly addr: LiveChannelAddress;
 
-  readonly stream = new Subject<LiveChannelEvent<TMessage>>();
+  readonly stream = new ReplaySubject<LiveChannelEvent<TMessage>>(1);
 
   private last = 0;
 

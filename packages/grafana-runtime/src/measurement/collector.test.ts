@@ -44,6 +44,8 @@ describe('MeasurementCollector', () => {
       ],
     });
 
+    expect(collector.getDistinctNames()).toEqual(['test']);
+
     const frames = collector.getData();
     expect(frames.length).toEqual(2);
     expect(frames[0]).toMatchInlineSnapshot(`
@@ -174,6 +176,9 @@ describe('MeasurementCollector', () => {
     ];
     expect(same[0]).toEqual(same[1]);
     expect(same[0]).toEqual(same[2]);
+
+    const frame = collector.getData({ name: 'test', fields: ['f1'] })[0];
+    expect(frame.fields.length).toEqual(1);
 
     collector.addBatch({
       action: MeasurementAction.Replace,

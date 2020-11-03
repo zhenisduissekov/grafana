@@ -123,15 +123,27 @@ export class MeasurementQueryEditor extends PureComponent<Props, State> {
   };
 
   onFieldNamesChange = (sel: Array<SelectableValue<string>>) => {
-    const fields = sel ? sel.map(s => s.value!) : [];
+    const fields: string[] = [];
     const { onChange, query, onRunQuery } = this.props;
 
+    for (const s of sel) {
+      if (!s.value) {
+        // "Show all fields"
+        fields.length = 0;
+        break;
+      }
+      fields.push(s.value);
+    }
+
     // When adding your first name, also include time (if it exists)
-    if (this.props.query.measurements?.fields && fields.length === 1) {
-      for (const field of this.state.fields) {
-        if (field.value!.toLowerCase() === 'time') {
-          fields.push(field.value!);
-          break;
+    if (fields.length === 1 && query.measurements) {
+      const len = query.measurements.name ? query.measurements.name.length : 0;
+      if (len === 0) {
+        for (const field of this.state.fields) {
+          if (field.value!.toLowerCase() === 'time') {
+            fields.push(field.value!);
+            break;
+          }
         }
       }
     }
@@ -148,11 +160,6 @@ export class MeasurementQueryEditor extends PureComponent<Props, State> {
 
   render() {
     let { channel, measurements } = this.props.query;
-
-    // channels: Array<SelectableValue<string>>; // all possible channels
-    // frames: Array<SelectableValue<string>>; // frame names
-    // fields: Array<SelectableValue<string>>; // names of the fields
-    // loading?: boolean;
 
     const { channels, frames, fields, loading } = this.state;
     const currentChannel = channels.find(c => c.value === channel);
