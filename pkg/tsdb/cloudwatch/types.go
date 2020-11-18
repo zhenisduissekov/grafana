@@ -3,8 +3,15 @@ package cloudwatch
 import (
 	"fmt"
 
+	"github.com/grafana/grafana-aws-sdk/pkg/awsds"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
+
+type cloudwatchSettings struct {
+	awsds.AWSDatasourceSettings
+
+	CustomMetricsNamespaces string "json:customMetricsNamespaces"
+}
 
 type requestQuery struct {
 	RefId              string
