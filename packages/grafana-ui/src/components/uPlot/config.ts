@@ -28,6 +28,14 @@ export enum LineInterpolation {
   StepAfter = 'stepAfter',
 }
 
+export enum ScaleDistribution {
+  Linear = 'linear',
+  Logarithmic = 'log',
+}
+
+/**
+ * @alpha
+ */
 export interface LineConfig {
   lineColor?: string;
   lineWidth?: number;
@@ -35,11 +43,17 @@ export interface LineConfig {
   spanNulls?: boolean;
 }
 
+/**
+ * @alpha
+ */
 export interface AreaConfig {
   fillColor?: string;
   fillOpacity?: number;
 }
 
+/**
+ * @alpha
+ */
 export interface PointsConfig {
   showPoints?: PointVisibility;
   pointSize?: number;
@@ -47,13 +61,21 @@ export interface PointsConfig {
   pointSymbol?: string; // eventually dot,star, etc
 }
 
+export interface ScaleDistributionConfig {
+  type: ScaleDistribution;
+  log?: number;
+}
 // Axis is actually unique based on the unit... not each field!
 export interface AxisConfig {
   axisPlacement?: AxisPlacement;
   axisLabel?: string;
   axisWidth?: number; // pixels ideally auto?
+  scaleDistribution?: ScaleDistributionConfig;
 }
 
+/**
+ * @alpha
+ */
 export interface GraphFieldConfig extends LineConfig, AreaConfig, PointsConfig, AxisConfig {
   drawStyle?: DrawStyle;
 }
