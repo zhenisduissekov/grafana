@@ -158,7 +158,7 @@ const getStyles = (theme: GrafanaTheme) => {
       flex-grow: 1;
       display: none;
 
-      @media only screen and (min-width: ${theme.breakpoints.md}) {
+      @media ${styleMixins.mediaUp(theme.breakpoints.md)} {
         display: block;
       }
     `,
